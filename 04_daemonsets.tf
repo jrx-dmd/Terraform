@@ -1,67 +1,59 @@
-/*resource "kubernetes_daemonset" "fluentd" {
+resource "kubernetes_daemonset" "nginx" {
   metadata {
-    name = "fluentd"
-    namespace = "kube-system"
+    name      = "terraform-example"
+    namespace = var.kubernetes_namespace
     labels = {
-      test = "fluentd"
+      test = "MyExampleApp"
     }
   }
 
   spec {
     selector {
       match_labels = {
-        test = "fluentd"
+        test = "MyExampleApp"
       }
     }
 
     template {
       metadata {
         labels = {
-          test = "fluentd"
+          test = "MyExampleApp"
         }
       }
 
       spec {
-
-        volume {
-          name = "varlog"
-          host_path { 
-            path = "/var/log" 
-          }
-        }
-
-        volume {
-          name = "varlibdockercontainers"
-          host_path {
-            path = "/var/lib/docker/containers"
-          }
-        }
-
         container {
-          image = "garland/kubernetes-fluentd-loggly:1.0"
-          name  = "fluentd-es"
+          image = "nginx:1.21.6"
+          name  = "example"
 
-          volume_mount {
-            name = "varlog"
-            mount_path = "/var/log"
+          resources {
+            limits = {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests = {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
           }
 
-          volume_mount {
-            name = "varlibdockercontainers"
-            mount_path = "/var/lib/docker/containers"
-            read_only = true
+          liveness_probe {
+            http_get {
+              path = "/"
+              port = 80
+
+              http_header {
+                name  = "X-Custom-Header"
+                value = "Awesome"
+              }
+            }
+
+            initial_delay_seconds = 3
+            period_seconds        = 3
           }
 
-          command = [ "/bin/sh", "-c", "/usr/sbin/td-agent 2>&1 >> /var/log/fluentd.log" ]
-
-          env {
-            name = "LOGGLY_URL"
-            value = "https://logs-01.loggly.com/inputs/dop_v1_85d1478fc10c37a51ecd672dd4f706ae3fc90ad5ce7386ba009ff6fe163f2d7a/tag/k8"
-          }
-
-          
         }
       }
     }
   }
-}*/
+}
