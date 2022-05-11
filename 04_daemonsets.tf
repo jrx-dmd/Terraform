@@ -1,4 +1,4 @@
-resource "kubernetes_daemonset" "fluentd" {
+/*resource "kubernetes_daemonset" "fluentd" {
   metadata {
     name = "fluentd"
     namespace = "kube-system"
@@ -64,4 +64,4 @@ resource "kubernetes_daemonset" "fluentd" {
       }
     }
   }
-}
+}*/

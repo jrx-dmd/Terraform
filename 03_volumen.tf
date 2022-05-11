@@ -1,9 +1,9 @@
-resource "digitalocean_volume" "david" {
-  region                  = "nyc1"
-  name                    = "prueba"
-  size                    = 5
-  initial_filesystem_type = "ext4"
-  description             = "disk"
+resource "digitalocean_volume" "volumen" {
+  region                  = var.region_vl
+  name                    = var.name_vl
+  size                    = var.size_vl
+  initial_filesystem_type = var.type_filesystem_vl
+  description             = var.description_vl
   lifecycle {
     prevent_destroy = true
   }
