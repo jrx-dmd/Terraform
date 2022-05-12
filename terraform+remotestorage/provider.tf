@@ -5,6 +5,14 @@ terraform {
       version = "~> 2.0"
     }
   }
+
+  cloud {
+    organization = "jrx-dmd"
+
+    workspaces {
+      name = "david"
+    }
+  }
 }
 
 variable "digitalocean_token" {}
