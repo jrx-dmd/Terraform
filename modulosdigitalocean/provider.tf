@@ -14,13 +14,13 @@ provider "digitalocean" {
 
 ###Uso de modulos
 
-/*module "mod_cluster_kubernetes" {
+module "mod_cluster_kubernetes" {
     source = "./mod_cluster_kubernetes/"
 
     kubernetes_name = "pruebamodulo"
     region = "nyc1"
     name_pool = "poolpruebamodulo"
-}*/
+}
 
 module "mod_create_volumen" {
     source = "./mod_create_volumen/"
